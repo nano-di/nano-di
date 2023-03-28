@@ -10,20 +10,28 @@ import { listInstanceMethods } from "./util";
  */
 export const pickInstance = <T, TKeys extends keyof T = keyof T>(
   Class: { new(...args: any[]): T },
-  methods: TKeys[] | null = null,
-  instantiator = () => new Class(),
+  methodListOrInstantiator?: TKeys[] | (() => T),
+  instantiator?: (() => T),
 ) => {
   let instance: T | null = null;
 
+  const methodList = methodListOrInstantiator && Array.isArray(methodListOrInstantiator)
+    ? methodListOrInstantiator
+    : null;
+
+  const instantiatorFn = typeof methodListOrInstantiator === 'function'
+    ? methodListOrInstantiator
+    : instantiator || (() => new Class());
+
   const getInstance = () => {
     if (!instance) {
-      instance = instantiator();
+      instance = instantiatorFn();
     }
 
     return instance;
   };
 
-  const consideredMethods = methods || listInstanceMethods<T, TKeys>(Class);
+  const consideredMethods = methodList || listInstanceMethods<T, TKeys>(Class);
 
   return consideredMethods.reduce((all, methodName) => ({
     ...all,
@@ -33,6 +41,6 @@ export const pickInstance = <T, TKeys extends keyof T = keyof T>(
       return (availableInstance[methodName] as unknown as Function).apply(availableInstance, args);
     },
   }), {}) as {
-    [key in TKeys]: T[key]
-  };
+      [key in TKeys]: T[key]
+    };
 };
