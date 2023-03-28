@@ -1,0 +1,21 @@
+{
+  "name": "@nano-di/sinon",
+  "version": "0.0.1",
+  "main": "build/index.js",
+  "private": false,
+  "access": "public",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@nano-di/core": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/sinon": "^10.0.13",
+    "sinon": "^15.0.3",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.0.2"
+  }
+}

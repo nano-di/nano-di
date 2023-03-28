@@ -1,0 +1,22 @@
+{
+  "name": "@nano-di/jest",
+  "private": false,
+  "access": "public",
+  "version": "0.0.1",
+  "main": "build/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@nano-di/core": "1.0.0",
+    "@types/jest": "^29.5.0"
+  },
+  "devDependencies": {
+    "@types/sinon": "^10.0.13",
+    "jest": "^29.5.0",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.0.2"
+  }
+}

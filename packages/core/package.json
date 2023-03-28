@@ -1,0 +1,15 @@
+{
+  "name": "@nano-di/core",
+  "version": "0.0.1",
+  "main": "build/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^5.0.2",
+    "@types/node": "^18.15.10"
+  }
+}
