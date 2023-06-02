@@ -1,3 +1,5 @@
+export type InstantiableClass<T> = { new(...args: any[]): T };
+
 export type DepsObject = Record<string, Function>;
 
 export type DependencyMap<T> = {

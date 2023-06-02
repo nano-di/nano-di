@@ -1,2 +1,2 @@
-export * from './stubDependencies';
-export * from './clearUtils';
+export * from './mockDependencies';
+export * from './clearDependencies';

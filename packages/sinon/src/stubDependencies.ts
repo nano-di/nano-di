@@ -1,6 +1,6 @@
 import sinon, { SinonStub } from 'sinon';
 
-import { DependencyMap } from '@nano-di/core';
+import { StubbedDependencies } from './types';
 
 type StubbedOutput<T> = {
   [key in keyof T]: {
@@ -14,26 +14,22 @@ type StubbedOutput<T> = {
  * @param input the DependencyMap to be stubbed
  * @returns the stubbed dependency map
  */
-export const stubDependencies = <T>(
-  input: DependencyMap<T>,
-) => {
-  const stubs = {} as StubbedOutput<T>;
+export const stubDependencies = <T extends Record<string, unknown>>(
+  dependencyMap: T,
+): StubbedDependencies<T> => {
+  const stubbedDependencyMap = {} as StubbedDependencies<T>;
 
-  const keys = Object.keys(input) as (keyof DependencyMap<T>)[];
+  for (const key in dependencyMap) {
+    const value = dependencyMap[key];
 
-  keys.forEach(key => {
-    if (input[key] === null) {
-      return;
+    if (typeof value === 'function') {
+      stubbedDependencyMap[key as keyof StubbedDependencies<T>] = sinon.stub() as StubbedDependencies<T>[keyof T];
+    } else if (typeof value === 'object') {
+      stubbedDependencyMap[key as keyof StubbedDependencies<T>] = stubDependencies(value as any) as StubbedDependencies<T>[keyof T];
+    } else {
+      throw new Error(`Cannot stub non-object, non-function value: ${value}`);
     }
+  }
 
-    stubs[key] = {} as StubbedOutput<T>[keyof T];
-
-    const subKeys = Object.keys(input[key]!) as (keyof DependencyMap<T>[keyof DependencyMap<T>])[];
-
-    subKeys.forEach(subkey => {
-      stubs[key][subkey] = sinon.stub() as SinonStub;
-    });
-  });
-
-  return stubs;
+  return stubbedDependencyMap;
 };

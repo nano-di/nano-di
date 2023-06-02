@@ -1,3 +1,3 @@
-export * from './pickInstance';
-export * from './pickStatic';
+export * from './injectInstance';
+export * from './injectStatic';
 export * from './types';

@@ -2,14 +2,14 @@
   "name": "@nano-di/jest",
   "private": false,
   "access": "public",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "rm -rf ./build && tsc"
   },
   "dependencies": {
-    "@nano-di/core": "0.0.2",
+    "@nano-di/core": "0.0.3",
     "@types/jest": "^29.5.0"
   },
   "devDependencies": {

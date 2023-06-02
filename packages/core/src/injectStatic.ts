@@ -8,7 +8,7 @@ import { listStaticMethods } from "./util";
  * @param instantiator @optional a function that returns an instance of the class. Defaults to a `() => new Class()`. Useful for Classes with non-empty constructor signatures`.
  * @returns an object with functions on keys matching the names of the picked methods, to which all calls will be forwarded a single, lazily created instance of the class.
  */
-export const pickStatic = <T, TKeys extends keyof T = keyof T>(
+export const injectStatic = <T, TKeys extends keyof T = keyof T>(
   StaticClass: T,
   methods?: TKeys[],
 ) => {

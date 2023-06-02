@@ -1,13 +1,15 @@
-import { SinonStub } from 'sinon';
+import { StubbedDependencies } from "./types";
 
-type DepsObject = Record<string, Function>;
+export const clearNestedStubs = <T extends Record<string, unknown>>(
+  stubbedDeps: StubbedDependencies<T>,
+) => {
+  for (const key in stubbedDeps) {
+    const value = stubbedDeps[key];
 
-export type DepStubMap<T extends DepsObject> = Record<keyof T, SinonStub>;
-
-export const clearAllStubs = <T extends DepsObject>(stubs: DepStubMap<T>): void => {
-  Object.values(stubs).forEach(stub => stub.reset());
-};
-
-export const clearNestedStubs = (stubs: Record<string, Record<string, Function>>) => {
-  Object.values(stubs).forEach(stub => clearAllStubs(stub as any));
+    if (typeof value === 'object') {
+      clearNestedStubs(value as any);
+    } else {
+      value.reset();
+    }
+  }
 };

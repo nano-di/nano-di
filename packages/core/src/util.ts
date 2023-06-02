@@ -1,3 +1,5 @@
+import { InstantiableClass } from "./types";
+
 export const excludeKeys = (keysToExclude: string[]) => (key: string) => !keysToExclude.includes(key);
 
 export const rootPrototype = Object.getPrototypeOf({});
@@ -5,10 +7,11 @@ export const rootPrototype = Object.getPrototypeOf({});
 const instanceClassExcludedKeys = ['constructor', 'length', 'name', 'prototype'];
 
 export const listInstanceMethods = <T, TKeys extends keyof T = keyof T>(
-  Class: { new(...args: any[]): T },
+  Class: InstantiableClass<T>,
 ): TKeys[] => {
   const currentClassPrototype = Object.getPrototypeOf(Class);
   const parentPrototype = currentClassPrototype.prototype as typeof Class;
+  
   const ownKeys = Object.getOwnPropertyNames(Class.prototype).filter(excludeKeys(instanceClassExcludedKeys)) as TKeys[];
 
   const parentKeys = parentPrototype && parentPrototype !== rootPrototype
